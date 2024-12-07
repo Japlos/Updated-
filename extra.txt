@@ -1,0 +1,62 @@
+ <form action="function.php" class="sign-in-form">
+            <h2 class="title">Log In</h2>
+            <div class="input-field">
+              <i class="bx bxs-user"></i>
+              <input
+                type="text"
+                placeholder="Student Number"
+                pattern="[0-4]{5}-[0-9]{2}-[0-9]{4}"
+                required
+              />
+            </div>
+            <div class="input-field">
+              <i class="bx bxs-lock"></i>
+              <input
+                type="password"
+                placeholder="Password"
+                id="password"
+                minlength="7"
+                maxlength="14"
+                required
+              />
+              <img
+                src="assets/hide.png"
+                alt="Toggle Password Visibility"
+                id="hide"
+              />
+            </div>
+            <a href="admindashboard.html" style="text-decoration:none; width:50px;"><button style="width:50px;">Hey</button></a>
+            <input type="submit" value="Continue" class="btn solid" />
+          </form>
+                <?php
+function getConnection(){
+    $serverName = "127.0.0.1";
+    $user = "root";
+    $password = "russel";
+    $database = "dbusers";
+    $connection="";
+
+    $connection = mysqli_connect( hostname: $serverName, 
+                                  username: $user, 
+                                  password: $password, 
+                                  database: $database);
+    if($connection){
+        return $connection;
+    }
+    return false;
+}       
+
+function insertStudentInfo($studentNumber, $firstName, $lastName, $courses, $email, $password){
+    $connection = getConnection();
+
+    $statement = "INSERT INTO dbusers (StudentNumber, FirstName, LastName, Courses, Email, Password) 
+                                      VALUES('".$studentNumber."','".$firstName."','".$lastName."',
+                                      '".$email."','".$courses."','".$password."')";
+    if(mysqli_query(mysql: $connection, query: $statement)){
+        return "Successfully saved.";
+    }else{
+        return "There is an error saving your information.";
+    }
+}
+
+
